@@ -2,7 +2,7 @@
 # displays Best School 10 times.
 
 COUNTER=1
-until [ $COUNTER -le 10 ]
+until [ $COUNTER -lt 11 ]
 do
     echo "Best School"
     let COUNTER+=1
