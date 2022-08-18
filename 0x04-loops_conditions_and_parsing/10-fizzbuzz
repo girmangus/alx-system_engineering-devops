@@ -2,19 +2,20 @@
 # displays school School 100 times.
 
 COUNTER=1
-while [ $COUNTER -lt 101 ]
+while [ $COUNTER -le 100 ]
 do
     if [ $((COUNTER%15)) = 0 ]
-    then
+     then
         echo "FizzBuzz"
     elif [ $((COUNTER%3)) = 0 ]
-    then
+     then
         echo "Fizz"
     elif [ $((COUNTER%5)) = 0 ]
-    then
+     then
         echo "Buzz"
     else
         echo "$COUNTER"
     fi
-    let COUNTER+=1
+    # let COUNTER+=1
+    COUNTER+=1
 done
