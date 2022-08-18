@@ -5,6 +5,6 @@ COUNTER=1
 until [ $COUNTER -le 10 ]
 do
     echo "Best School"
-    COUNTER=$(( $COUNTER + 1 ))
-    # let COUNTER=COUNTER+1
+    # COUNTER=$(( $COUNTER + 1 ))
+    let COUNTER+=1
 done
