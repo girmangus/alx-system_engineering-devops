@@ -4,11 +4,11 @@
 COUNTER=1
 while [ $COUNTER -le 10 ]
 do
-    if [ $COUNTER = 9 ]
+    if [ $COUNTER -ne 9 ]
     then
-        echo "Hi"
-    else
         echo "Best School"
+    else
+        echo "Hi"
     fi
     let COUNTER+=1
 done
