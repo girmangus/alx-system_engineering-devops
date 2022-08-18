@@ -17,5 +17,5 @@ do
         echo "$COUNTER"
     fi
     # COUNTER+=1
-    COUNTER= $(( COUNTER++ ))
+    $(( COUNTER++ ))
 done
