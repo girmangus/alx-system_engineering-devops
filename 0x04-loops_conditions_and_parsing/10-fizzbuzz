@@ -16,5 +16,6 @@ do
     else
         echo "$COUNTER"
     fi
-    COUNTER+=1
+    # COUNTER+=1
+    $(( COUNTER++ ));
 done
