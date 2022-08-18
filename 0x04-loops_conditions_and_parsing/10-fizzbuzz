@@ -16,6 +16,5 @@ do
     else
         echo "$COUNTER"
     fi
-    # let COUNTER+=1
-    COUNTER+=1
+    let COUNTER+=1
 done
