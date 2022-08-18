@@ -2,4 +2,8 @@
 # displays Best School 10 times.
 
 # COUNTER=1; while [ $COUNTER -le 10 ]; do  echo "Best School" $(( COUNTER++ )); done
-x=1; while  [ $x -le 10 ]; do echo "Best School" $(( x++ )); done
+# x=1; while  [ $x -le 10 ]; do echo "Best School" $(( x++ )); done
+
+#!/usr/bin/env bash
+# displays Best School 10 times.
+c=1 ; while [ $c <= 10 ]; do echo "Best School"   $(( c++ )); done
