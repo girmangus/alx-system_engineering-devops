@@ -1,6 +1,6 @@
 # installs the package flask
 
-package { 'Flask':
+package { 'flask':
   ensure   => '2.1.0',
-  provider => 'gem',
+  provider => 'pip',
 }
