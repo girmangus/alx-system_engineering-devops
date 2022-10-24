@@ -1,24 +1,17 @@
-# Puppet manifest to install nginx
-exec { 'sudo apt-get-update':
-  command => '/usr/bin/apt-get update',
-}
-
+# Custom HTTP header response, so that it configures a brand new Ubuntu
 package { 'nginx':
-  ensure  => installed,
-  require => Exec['sudo apt-get-update'],
+  ensure => installed,
 }
 
-file_line { 'a':
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'listen 80 default_server;',
-  line    => 'add_header X-Served-By $hostname;',
-  require => Package['nginx'],
+file_line { 'aaaaa':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => '/listen 80 default_server/a add_header X-Served-By \"${HOSTNAME}\";" /etc/nginx/sites-available/default',
 }
 
-file { '/var/www/html/index.html':
+file { '/var/www/html/index.nginx-debian.html':
   content => 'Hello World!',
-  require => Package['nginx'],
 }
 
 service { 'nginx':
