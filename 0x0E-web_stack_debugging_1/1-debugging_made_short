@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# listen port 80 and erase pid stored by service
-sudo sed -i "s/8080/80/" /etc/nginx/sites-enabled/default
-sudo service nginx restart
-echo '' > /run/nginx.pid
+# a Bash script that configures a server to listen to port 80
+sudo sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
+pkill -l nginx
