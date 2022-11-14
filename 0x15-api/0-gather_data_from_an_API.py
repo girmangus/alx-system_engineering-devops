@@ -1,28 +1,35 @@
 #!/usr/bin/python3
-
-import requests
+"""
+Python script that, using this REST API,
+for a given employee ID, returns information about his/her TODO list progress.
+"""
+import requests as r
 from sys import argv
 
-
 if __name__ == "__main__":
-        R = requests.get('https://jsonplaceholder.typicode.com/users/{:}'
-                         .format(argv[1])).json()
-        R_two = requests.get(
-                'https://jsonplaceholder.typicode.com/todos/?userId={:}'
-                .format(argv[1])).json()
+    employee_id = argv[1]
+    url_user = 'https://jsonplaceholder.typicode.com/users/{}'.format(
+        employee_id)
+    url_todos = 'https://jsonplaceholder.typicode.com/users/{}/todos'.format(
+        employee_id)
 
-        EMPLOYEE_NAME = R.get('name')
-        TASK_TITLE = []
-        NUMBER_OF_DONE_TASKS = 0
+    resp_user = r.get(url_user)
+    resp_todos = r.get(url_todos)
 
-        for task in R_two:
-                if task.get('completed') is True:
-                        TASK_TITLE.append(task.get('title'))
-                        NUMBER_OF_DONE_TASKS += 1
-        TOTAL_NUMBER_OF_TASKS = len(R_two)
-        print("Employee {} is done with tasks({}/{}):".
-              format(EMPLOYEE_NAME, NUMBER_OF_DONE_TASKS,
-                     TOTAL_NUMBER_OF_TASKS))
+    try:
+        users = resp_user.json()
+        user_todos = resp_todos.json()
 
-        for t in TASK_TITLE:
-                print("\t {}".format(t))
+        completed_task = list(
+            filter(lambda x: x.get("completed") is True,
+                   user_todos))
+
+        print("Employee {} is done with tasks({}/{}):"
+              .format(users.get('name'), len(completed_task),
+                      len(user_todos)))
+
+        for todo in completed_task:
+            print("\t {}".format(todo.get('title')))
+
+    except Exception as e:
+        print(e)
