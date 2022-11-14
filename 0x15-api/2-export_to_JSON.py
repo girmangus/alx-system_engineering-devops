@@ -1,29 +1,32 @@
 #!/usr/bin/python3
-
-import csv
+"""Using what you did in the task #0,
+   extend your Python script to export
+   data in the JSON format"""
 import json
 import requests
 from sys import argv
 
+
 if __name__ == "__main__":
-    R = requests.get('https://jsonplaceholder.typicode.com/users/{:}'
-                     .format(argv[1])).json()
-    R_two = requests.get(
-        'https://jsonplaceholder.typicode.com/todos/?userId={:}'
-        .format(argv[1])).json()
+    URL = "https://jsonplaceholder.typicode.com"
+    userid = int(argv[1])
+    user = requests.get(URL + "/users/{}".format(userid))
+    todos = requests.get(URL + '/todos')
+    name = user.json().get('username')
+    jsonfile = argv[1] + '.json'
 
-    userID = argv[1]
-    name = R.get('username')
-    tasks = {}
-    list_task = []
-    for item in R_two:
-        task = {}
-        task['task'] = item.get('title')
-        task['completed'] = item.get('completed')
-        task['username'] = name
-        list_task.append(task)
+    data = dict()
+    data[str(userid)] = []
 
-    tasks[userID] = list_task
+    for todo in todos.json():
+        if todo.get('userId') == userid:
+            data[str(userid)].append(
+                {
+                    "task": todo['title'],
+                    "completed": todo['completed'],
+                    "username": name
+                }
+            )
 
-    with open("{:}.json".format(userID), 'w') as f:
-        json.dump(tasks, f)
+    with open(jsonfile, 'w', newline='') as f:
+        json.dump(data, f)
