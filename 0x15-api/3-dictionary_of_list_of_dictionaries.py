@@ -1,21 +1,39 @@
 #!/usr/bin/python3
 
 import json
-import requests
+import requests as r
 
 
 if __name__ == "__main__":
-    dict_tasks = {}
-    R = requests.get('https://jsonplaceholder.typicode.com/users/').json()
-    R_two = requests.get("https://jsonplaceholder.typicode.com/todos").json()
+    url_user = 'https://jsonplaceholder.typicode.com/users/'
+    url_todos = 'https://jsonplaceholder.typicode.com/todos'
 
-    dict_tasks = {item.get("id"):
-                  [{"task": j.get("title"),
-                    "completed": j.get("completed"),
-                    "username": item.get("username")}
-                   for j in R_two
-                   if j.get("userId") == item.get("id")]
-                  for item in R}
+    resp_user = r.get(url_user)
+    resp_todos = r.get(url_todos)
 
-    with open("todo_all_employees.json", 'w') as f:
-        json.dump(dict_tasks, f)
+    try:
+        users = resp_user.json()
+        user_todos = resp_todos.json()
+
+        data = {}
+
+        for user in users:
+            user_id = user.get('id')
+
+            usr_todos = list(filter(lambda todo: (
+                todo.get('userId') == user_id), user_todos))
+            tasks = list(map(lambda todo: {
+                "username": user.get('username'),
+                "task": todo.get('title'),
+                "completed": todo.get('completed')
+            }, usr_todos))
+
+            data[user_id] = tasks
+
+            json_name = 'todo_all_employees.json'
+
+            with open(json_name, mode='w', encoding='utf-8') as jsons:
+                json.dump(data, jsons)
+
+    except Exception as e:
+        print(e)
